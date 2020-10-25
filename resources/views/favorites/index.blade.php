@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Search result</div>
+                    <div class="card-header">Favorite repositories</div>
 
                     <div class="card-body">
                         @if(! empty($repositories))
@@ -18,32 +18,25 @@
                                         <th scope="col">Description</th>
                                         <th scope="col">Stargazers</th>
                                         <th scope="col">URL</th>
-                                        <th scope="col">Favorites</th>
+                                        <th scope="col">Remove</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($repositories as $repository)
                                         <tr>
                                             <td>{{ $loop->index + 1 }}</td>
-                                            <td>{{ $repository['full_name'] }}</td>
-                                            <td>{{ $repository['owner']['login'] }}</td>
+                                            <td>{{ $repository['name'] }}</td>
+                                            <td>{{ $repository['owner'] }}</td>
                                             <td>{{ $repository['description'] }}</td>
-                                            <td>{{ $repository['stargazers_count'] }}</td>
+                                            <td>{{ $repository['stargazers'] }}</td>
                                             <td>
-                                                <a href="{{ $repository['html_url'] }}" rel="nofollow">{{ $repository['html_url'] }}</a>
+                                                <a href="{{ $repository['url'] }}" rel="nofollow">{{ $repository['url'] }}</a>
                                             </td>
                                             <td>
-                                                @if ($repository['in_favorites'])
-                                                    <form action="{{ route('search.remove', $repository['id']) }}" method="post">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-danger" style="min-width:85px;">Remove</button>
-                                                    </form>
-                                                @else
-                                                    <form action="{{ route('search.add', $repository['id']) }}" method="post">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-primary" style="min-width:85px;">Add</button>
-                                                    </form>
-                                                @endif
+                                                <form action="{{ route('favorites.remove', $repository['id']) }}" method="post">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger" style="min-width:85px;">Remove</button>
+                                                </form>
                                             </td>
                                       </tr>
                                     @endforeach
@@ -51,9 +44,8 @@
                             </table>
                         @else
                             <p class="h5">
-                                <strong>The listed users and repositories cannot be searched either because the resources do not exist or you do not have permission to view them.</strong>
+                                <strong>No repositories were added to favorites yet!</strong>
                             </p>
-                            <a class="btn btn-primary mt-3" href="{{ route('search.index') }}" role="button">Back</a>
                         @endif
                     </div>
                 </div>

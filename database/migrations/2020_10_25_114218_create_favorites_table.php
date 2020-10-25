@@ -19,7 +19,7 @@ class CreateFavoritesTable extends Migration
 //            $table->unsignedBigInteger('github_id');
             $table->string('name');
             $table->string('owner');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->integer('stargazers');
             $table->string('url');
             $table->timestamps();

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\FavoritesController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +30,5 @@ Route::get('/search/result', [SearchController::class, 'search'])->name('search.
 Route::post('/search/add/{githubId}', [SearchController::class, 'addToFavorites'])->name('search.add');
 Route::post('/search/remove/{githubId}', [SearchController::class, 'removeFromFavorites'])->name('search.remove');
 
-
-//Route::resource('favorites', FavoritesController::class);
-Route::post('/favorites/add/{githubId}', [FavoritesController::class, 'add'])->name('favorites.add');
+Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+Route::post('/favorites/remove/{githubId}', [FavoriteController::class, 'remove'])->name('favorites.remove');

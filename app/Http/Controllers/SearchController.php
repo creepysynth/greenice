@@ -26,7 +26,7 @@ class SearchController extends Controller
     protected $searchPath = "https://api.github.com/search/repositories";
 
     /**
-     * Class constructor
+     * SearchController constructor.
      */
     public function __construct()
     {
@@ -78,7 +78,8 @@ class SearchController extends Controller
     {
         $repositories = [];
 
-        if ($request->session()->has('lastSearch')) {
+        if ($request->session()->has('lastSearch'))
+        {
             $repositories = $request->session()->get('lastSearch');
 
             $repository = $repositories[$githubId];
@@ -96,7 +97,10 @@ class SearchController extends Controller
                 ]
             );
 
-            Auth::user()->favorites()->attach($favorite->id);
+            if (! Auth::user()->favorites->contains($favorite->id))
+            {
+                Auth::user()->favorites()->attach($favorite->id);
+            }
 
             $repositories[$githubId]['in_favorites'] = 1;
 
@@ -117,10 +121,14 @@ class SearchController extends Controller
     {
         $repositories = [];
 
-        if ($request->session()->has('lastSearch')) {
+        if ($request->session()->has('lastSearch'))
+        {
             $repositories = $request->session()->get('lastSearch');
 
-            Auth::user()->favorites()->detach($githubId);
+            if (Auth::user()->favorites->contains($githubId))
+            {
+                Auth::user()->favorites()->detach($githubId);
+            }
 
             $repositories[$githubId]['in_favorites'] = 0;
 
