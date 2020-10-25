@@ -34,11 +34,17 @@ class FavoriteController extends Controller
             ->orderBy('updated_at')
             ->get()
             ->toArray();
-//        $repositories = Auth::user()->favorites;
 
         return view('favorites.index', compact('repositories'));
     }
 
+    /**
+     * * Remove repository from favorites
+     *
+     * @param Request $request
+     * @param $githubId
+     * @return Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function remove(Request $request, $githubId)
     {
          if (Auth::user()->favorites->contains($githubId))
