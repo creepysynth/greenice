@@ -58,4 +58,37 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+//    public function favorites()
+//    {
+//        return $this->hasMany(Favorites::class);
+//    }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(Favorite::class)->withTimestamps();
+    }
 }
+
+
+
+/*
+
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class FavoriteUser extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'favorite_id',
+        'user_id',
+    ];
+}
+
+ */

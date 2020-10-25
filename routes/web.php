@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,17 +19,17 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //});
 
+Route::redirect('/', '/register');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia\Inertia::render('Dashboard');
 })->name('dashboard');
 
-Route::get('/', [SearchController::class, 'index'])->name('search.index');
-Route::get('/search', [SearchController::class, 'search'])->name('search.begin');
+Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+Route::get('/search/result', [SearchController::class, 'search'])->name('search.result');
+Route::post('/search/add/{githubId}', [SearchController::class, 'addToFavorites'])->name('search.add');
+Route::post('/search/remove/{githubId}', [SearchController::class, 'removeFromFavorites'])->name('search.remove');
 
-Route::get('/gh', function () {
-    //$response = \Illuminate\Support\Facades\Http::get("https://api.github.com/search/repositories?q=green+in:name+green+in:description+user:creepysynth");
 
-    $response = \Illuminate\Support\Facades\Http::get("https://api.github.com/search/repositories?q=language:php+greenice+in:name");
-
-    dd($response->json());
-});
+//Route::resource('favorites', FavoritesController::class);
+Route::post('/favorites/add/{githubId}', [FavoritesController::class, 'add'])->name('favorites.add');

@@ -71,7 +71,7 @@
                             <div class="card-header">Search for repositories in GitHub</div>
 
                             <div class="card-body">
-                                <form action="{{ route('search.begin') }}" method="get">
+                                <form action="{{ route('search.result') }}" method="get">
                                     <div class="container">
                                         @csrf
                                         <div class="form-group">
